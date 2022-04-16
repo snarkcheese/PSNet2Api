@@ -28,9 +28,7 @@ function Invoke-Net2ApiCall {
 }
 
 function Get-Net2Operators {
-    [CmdletBinding(DefaultParameterSetName = "Connect")]
     param(
-
         [parameter(Mandatory, Position = 0)]
         [string]$ComputerName,
 
@@ -41,7 +39,7 @@ function Get-Net2Operators {
 }
 
 function Get-Net2AccessLevels {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = "All")]
     param(
         [Parameter(ParameterSetName = "Single")]
         [int]$AccessLevelId,
@@ -65,7 +63,7 @@ function Get-Net2Areas {
 }
 
 function Get-Net2AreaGroups {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = "All")]
     param(
         [Parameter(ParameterSetName = "Single")]
         [int]$AreaGroupId
@@ -78,7 +76,7 @@ function Get-Net2AreaGroups {
 }
 
 function Get-Net2Doors {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = "All")]
     param(
         [Parameter(ParameterSetName = "Single")]
         [int]$DoorId,
