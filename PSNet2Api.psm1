@@ -14,6 +14,7 @@ function Invoke-Net2ApiCall {
     $headers = @{
         Authorization  = "Bearer $($Script:BearerToken)"
         "Content-type" = "application/json"
+        "Accept"       = "application/json"
     }
     $params = @{
         "Headers" = $headers
@@ -24,6 +25,93 @@ function Invoke-Net2ApiCall {
         $params.Add("Body", $Body)
     }
     Invoke-RestMethod @params
+}
+
+function Get-Net2Operators {
+    [CmdletBinding(DefaultParameterSetName = "Connect")]
+    param(
+
+        [parameter(Mandatory, Position = 0)]
+        [string]$ComputerName,
+
+        [string]$Port = "8080"
+    )
+    $endpoint = "http://{0}:{1}/api/v1/operators" -f $ComputerName, $Port
+    Invoke-RestMethod -Uri $endpoint
+}
+
+function Get-Net2AccessLevels {
+    [CmdletBinding()]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$AccessLevelId,
+
+        [parameter(ParameterSetName = "Single")]
+        [switch]$Detail
+    )
+    $endpoint = "/api/v1/accesslevels"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $AccessLevelId
+        if ($Detail) {
+            $endpoint = "{0}/detail" -f $endpoint
+        }
+    }
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2Areas {
+    $endpoint = "/api/v1/accesslevels/areas"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2AreaGroups {
+    [CmdletBinding()]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$AreaGroupId
+    )
+    $endpoint = "/api/v1/areagroups"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $AreaGroupId
+    }
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2Doors {
+    [CmdletBinding()]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$DoorId,
+
+        [Parameter(ParameterSetName = "DoorGroup")]
+        [int]$DoorGroupId
+    )
+    $endpoint = "/api/v1/doors"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $AreaGroupId
+    }
+    elseif ($PSCmdlet.ParameterSetName -eq "DoorGroup") {
+        if ($DoorGroupId -eq 0) {
+            $endpoint = "/api/v1/doorgroups/root/doors"
+        }
+        else {
+            $endpoint = "/api/v1/doorgroups/{0}/doors" -f $DoorGroupId
+        }
+    }
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2DoorGroups {
+    [CmdletBinding()]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$DoorGroupId
+    )
+    $endpoint = "/api/v1/doorgroups"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $DoorGroupId
+    }
+    Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
 function Connect-Net2Api {
@@ -63,41 +151,4 @@ function Connect-Net2Api {
     $Script:BearerToken = $r.access_token
     $Script:RefreshToken = $r.refresh_token
     write-output $r
-}
-
-function Get-Net2AccessLevels {
-    [CmdletBinding()]
-    param(
-        [Parameter(ParameterSetName = "Single")]
-        [int]$AccessLevelId,
-
-        [parameter(ParameterSetName = "Single")]
-        [switch]$Detail
-    )
-    $endpoint = "/api/v1/accesslevels"
-    if ($PSCmdlet.ParameterSetName -eq "Single") {
-        $endpoint = "{0}/{1}" -f $endpoint, $AccessLevelId
-        if ($Detail) {
-            $endpoint = "{0}/detail" -f $endpoint
-        }
-    }
-    Invoke-Net2ApiCall -Endpoint $endpoint
-}
-
-function Get-Net2Areas {
-    $endpoint = "/api/v1/accesslevels/areas"
-    Invoke-Net2ApiCall -Endpoint $endpoint
-}
-
-function Get-Net2AreaGroups {
-    [CmdletBinding()]
-    param(
-        [Parameter(ParameterSetName = "Single")]
-        [int]$AreaGroupId
-    )
-    $endpoint = "/api/v1/areagroups"
-    if ($PSCmdlet.ParameterSetName -eq "Single") {
-        $endpoint = "{0}/{1}" -f $endpoint, $AreaGroupId
-    }
-    Invoke-Net2ApiCall -Endpoint $endpoint
 }
