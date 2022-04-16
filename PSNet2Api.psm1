@@ -150,3 +150,58 @@ function Connect-Net2Api {
     $Script:RefreshToken = $r.refresh_token
     write-output $r
 }
+
+function Get-Net2ServerFeatures {
+    $endpoint = "/api/v1/serversettings/features"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2ServerProperties {
+    $endpoint = "/api/v1/serversettings/properties"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2TimeZones {
+    $endpoint = "/api/v1/timezones"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2TimezoneDays {
+    $endpoint = "/api/v1/timezones/days"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2Users {
+    $endpoint = "/api/v1/users"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2Departments {
+    $endpoint = "/api/v1/departments"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2TokenTypes {
+    $endpoint = "/api/v1/users/token/types"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2ApiVersions {
+    $endpoint = "/api/v1/versions"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2RollCallReports {
+    $endpoint = "/api/v1/rollcallreports"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2IoBoards {
+    $endpoint = "/api/v1/ioboards"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2Events {
+    $endpoint = "/api/v1/events"
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
