@@ -20,7 +20,7 @@ function Invoke-Net2ApiCall {
         "Method"  = $Method
         "Uri"     = "{0}{1}" -f $Script:BaseUri, $Endpoint
     }
-    if ($Local:Body) {
+    if ($Body) {
         $params.Add("Body", $Body)
     }
     Invoke-RestMethod @params
@@ -66,6 +66,25 @@ function Connect-Net2Api {
 }
 
 function Get-Net2AccessLevels {
+    [CmdletBinding()]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$AccessLevelId,
+
+        [parameter(ParameterSetName = "Single")]
+        [switch]$Detail
+    )
     $endpoint = "/api/v1/accesslevels"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $AccessLevelId
+        if ($Detail) {
+            $endpoint = "{0}/detail" -f $endpoint
+        }
+    }
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Get-Net2Areas {
+    $endpoint = "/api/v1/accesslevels/areas"
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
