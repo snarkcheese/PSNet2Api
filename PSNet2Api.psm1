@@ -8,17 +8,28 @@ $Script:RefreshToken = ""
 function Invoke-Net2ApiCall {
     param(
         $Endpoint,
-        $Body
+        $Body,
+        $Method = "Get"
     )
     $headers = @{
-        Authorization = "Bearer $($Script:BearerToken)"
+        Authorization  = "Bearer $($Script:BearerToken)"
         "Content-type" = "application/json"
     }
+    $params = @{
+        "Headers" = $headers
+        "Method"  = $Method
+        "Uri"     = "{0}{1}" -f $Script:BaseUri, $Endpoint
+    }
+    if ($Local:Body) {
+        $params.Add("Body", $Body)
+    }
+    Invoke-RestMethod @params
 }
 
 function Connect-Net2Api {
-    [PSCmdletBinding(ParameterSetName = "Connect")]
+    [CmdletBinding(DefaultParameterSetName = "Connect")]
     param(
+
         [parameter(Mandatory, Position = 0)]
         [string]$ComputerName,
         [parameter(Mandatory, Position = 1)]
@@ -31,7 +42,7 @@ function Connect-Net2Api {
         [string]$Refresh
     )
     $body = @{
-        "client_id"  = "ab78a3ca-4541-4c27-8462-b15bd9b8a839"
+        "client_id" = $ClientId
     }
     if ($PSCmdlet.ParameterSetName -eq "Connect") {
         $Script:ComputerName = $ComputerName
@@ -52,4 +63,9 @@ function Connect-Net2Api {
     $Script:BearerToken = $r.access_token
     $Script:RefreshToken = $r.refresh_token
     write-output $r
+}
+
+function Get-Net2AccessLevels {
+    $endpoint = "/api/v1/accesslevels"
+    Invoke-Net2ApiCall -Endpoint $endpoint
 }
