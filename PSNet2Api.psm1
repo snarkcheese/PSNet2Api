@@ -88,3 +88,16 @@ function Get-Net2Areas {
     $endpoint = "/api/v1/accesslevels/areas"
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
+
+function Get-Net2AreaGroups {
+    [CmdletBinding()]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$AreaGroupId
+    )
+    $endpoint = "/api/v1/areagroups"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $AreaGroupId
+    }
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
