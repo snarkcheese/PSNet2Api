@@ -24,7 +24,8 @@ function Invoke-Net2ApiCall {
     if ($Body) {
         $params.Add("Body", $Body)
     }
-    Invoke-RestMethod @params
+    $resp = Invoke-RestMethod @params
+    Write-Output $resp
 }
 
 function Get-Net2Operators {
@@ -152,17 +153,29 @@ function Connect-Net2Api {
 }
 
 function Get-Net2ServerFeatures {
-    $endpoint = "/api/v1/serversettings/features"
-    Invoke-Net2ApiCall -Endpoint $endpoint
+    Invoke-Net2ApiCall -Endpoint "/api/v1/serversettings/features"
 }
 
 function Get-Net2ServerProperties {
-    $endpoint = "/api/v1/serversettings/properties"
-    Invoke-Net2ApiCall -Endpoint $endpoint
+    Invoke-Net2ApiCall -Endpoint "/api/v1/serversettings/properties"
 }
 
 function Get-Net2TimeZones {
+    [CmdletBinding(DefaultParameterSetName = "All")]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$TimeZoneId,
+
+        [parameter(ParameterSetName = "Single")]
+        [switch]$Detail
+    )
     $endpoint = "/api/v1/timezones"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $TimeZoneId
+        if ($Detail) {
+            $endpoint = "{0}/detail" -f $endpoint
+        }
+    }
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
@@ -204,4 +217,11 @@ function Get-Net2IoBoards {
 function Get-Net2Events {
     $endpoint = "/api/v1/events"
     Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
+function Remove-Net2ApiToken {
+    $body = @{
+        "refreshToken" = $Script:RefreshToken
+    }
+    Invoke-Net2ApiCall -Endpoint "/api/v1/authorization/tokens" -Body $body -Method "Delete"
 }
