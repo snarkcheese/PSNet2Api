@@ -210,13 +210,11 @@ function Get-Net2Departments {
 }
 
 function Get-Net2TokenTypes {
-    $endpoint = "/api/v1/users/token/types"
-    Invoke-Net2ApiCall -Endpoint $endpoint
+    Invoke-Net2ApiCall -Endpoint "/api/v1/users/token/types"
 }
 
 function Get-Net2ApiVersions {
-    $endpoint = "/api/v1/versions"
-    Invoke-Net2ApiCall -Endpoint $endpoint
+    Invoke-Net2ApiCall -Endpoint "/api/v1/versions"
 }
 
 function Get-Net2RollCallReports {
