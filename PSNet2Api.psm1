@@ -196,6 +196,26 @@ function Get-Net2Users {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+function Get-Net2UserTokens {
+
+}
+
+function Get-Net2UserDepartments {
+
+}
+
+function Get-Net2UserDoorPermissionSet {
+
+}
+
+function Get-Net2UserImage {
+
+}
+
+function Get-Net2UserCustomFields {
+    
+}
+
 function Get-Net2Departments {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
