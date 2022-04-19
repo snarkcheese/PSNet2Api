@@ -59,8 +59,7 @@ function Get-Net2AccessLevels {
 }
 
 function Get-Net2Areas {
-    $endpoint = "/api/v1/accesslevels/areas"
-    Invoke-Net2ApiCall -Endpoint $endpoint
+    Invoke-Net2ApiCall -Endpoint "/api/v1/accesslevels/areas"
 }
 
 function Get-Net2AreaGroups {
@@ -160,18 +159,18 @@ function Get-Net2ServerProperties {
     Invoke-Net2ApiCall -Endpoint "/api/v1/serversettings/properties"
 }
 
-function Get-Net2TimeZones {
+function Get-Net2Timezones {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
         [Parameter(ParameterSetName = "Single")]
-        [int]$TimeZoneId,
+        [int]$TimezoneId,
 
         [parameter(ParameterSetName = "Single")]
         [switch]$Detail
     )
     $endpoint = "/api/v1/timezones"
     if ($PSCmdlet.ParameterSetName -eq "Single") {
-        $endpoint = "{0}/{1}" -f $endpoint, $TimeZoneId
+        $endpoint = "{0}/{1}" -f $endpoint, $TimezoneId
         if ($Detail) {
             $endpoint = "{0}/detail" -f $endpoint
         }
@@ -180,7 +179,15 @@ function Get-Net2TimeZones {
 }
 
 function Get-Net2TimezoneDays {
+    [CmdletBinding(DefaultParameterSetName = "All")]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$TimezoneDayId
+    )
     $endpoint = "/api/v1/timezones/days"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $TimeZoneId
+    }
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
@@ -190,7 +197,15 @@ function Get-Net2Users {
 }
 
 function Get-Net2Departments {
+    [CmdletBinding(DefaultParameterSetName = "All")]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$DepartmentId
+    )
     $endpoint = "/api/v1/departments"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $DepartmentId
+    }
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
