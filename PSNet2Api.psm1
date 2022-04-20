@@ -7,9 +7,18 @@ $Script:RefreshToken = ""
 
 function Invoke-Net2ApiCall {
     param(
-        $Endpoint,
-        $Body,
-        $Method = "Get"
+        [Parameter(Mandatory, Position = 0)]
+        [string]$Endpoint,
+
+        [string]$Body,
+
+        [ValidateSet(
+            "Get",
+            "Put",
+            "Delete",
+            "Post"
+        )]
+        [string]$Method = "Get"
     )
     $headers = @{
         Authorization  = "Bearer $($Script:BearerToken)"
@@ -151,10 +160,24 @@ function Connect-Net2Api {
     write-output $r
 }
 
+<#
+.SYNOPSIS
+Return the Net2 server features.
+
+.EXAMPLE
+Get-Net2ServerFeatures
+#>
 function Get-Net2ServerFeatures {
     Invoke-Net2ApiCall -Endpoint "/api/v1/serversettings/features"
 }
 
+<#
+.SYNOPSIS
+Returns the Net2 server properties.
+
+.EXAMPLE
+Get-Net2ServerProperties
+#>
 function Get-Net2ServerProperties {
     Invoke-Net2ApiCall -Endpoint "/api/v1/serversettings/properties"
 }
@@ -213,7 +236,7 @@ function Get-Net2UserImage {
 }
 
 function Get-Net2UserCustomFields {
-    
+
 }
 
 function Get-Net2Departments {
@@ -257,4 +280,48 @@ function Remove-Net2ApiToken {
         "refreshToken" = $Script:RefreshToken
     }
     Invoke-Net2ApiCall -Endpoint "/api/v1/authorization/tokens" -Body $body -Method "Delete"
+}
+
+function Invoke-Net2OpenDoor {
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$DoorId
+    )
+    $body = @{
+        "doorId" = $DoorId
+    } | ConvertTo-Json
+    Invoke-Net2ApiCall -Endpoint "/api/v1/commands/door/open" -Body $body -Method "Post"
+}
+
+function Invoke-Net2HoldOpenDoor {
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$DoorId
+    )
+    $body = @{
+        "doorId" = $DoorId
+    } | ConvertTo-Json
+    Invoke-Net2ApiCall -Endpoint "/api/v1/commands/door/holdopen" -Body $body -Method "Post"
+}
+
+function Invoke-Net2CloseDoor {
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$DoorId
+    )
+    $body = @{
+        "doorId" = $DoorId
+    } | ConvertTo-Json
+    Invoke-Net2ApiCall -Endpoint "/api/v1/commands/door/close" -Body $body -Method "Post"
+}
+
+function Invoke-Net2ResetAntipassback {
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$UserId
+    )
+    $body = @{
+        "userId" = $DoorId
+    } | ConvertTo-Json
+    Invoke-Net2ApiCall -Endpoint "/api/v1/commands/door/open" -Body $body -Method "Post"
 }
