@@ -5,12 +5,34 @@ $Script:BearerToken = ""
 $Script:RefreshToken = ""
 # $Script:ClientId = ""
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER Endpoint
+Parameter description
+
+.PARAMETER Body
+Parameter description
+
+.PARAMETER Method
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Invoke-Net2ApiCall {
     param(
         [Parameter(Mandatory, Position = 0)]
         [string]$Endpoint,
 
-        [string]$Body,
+        [System.Object]$Body,
 
         [ValidateSet(
             "Get",
@@ -37,6 +59,25 @@ function Invoke-Net2ApiCall {
     Write-Output $resp
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ComputerName
+Parameter description
+
+.PARAMETER Port
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2Operators {
     param(
         [parameter(Mandatory, Position = 0)]
@@ -48,6 +89,25 @@ function Get-Net2Operators {
     Invoke-RestMethod -Uri $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER AccessLevelId
+Parameter description
+
+.PARAMETER Detail
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2AccessLevels {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
@@ -67,10 +127,39 @@ function Get-Net2AccessLevels {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2Areas {
     Invoke-Net2ApiCall -Endpoint "/api/v1/accesslevels/areas"
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER AreaGroupId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2AreaGroups {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
@@ -84,6 +173,25 @@ function Get-Net2AreaGroups {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER DoorId
+Parameter description
+
+.PARAMETER DoorGroupId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2Doors {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
@@ -108,6 +216,22 @@ function Get-Net2Doors {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER DoorGroupId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2DoorGroups {
     [CmdletBinding()]
     param(
@@ -121,6 +245,34 @@ function Get-Net2DoorGroups {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ComputerName
+Parameter description
+
+.PARAMETER ClientId
+Parameter description
+
+.PARAMETER Port
+Parameter description
+
+.PARAMETER Credential
+Parameter description
+
+.PARAMETER Refresh
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Connect-Net2Api {
     [CmdletBinding(DefaultParameterSetName = "Connect")]
     param(
@@ -182,6 +334,25 @@ function Get-Net2ServerProperties {
     Invoke-Net2ApiCall -Endpoint "/api/v1/serversettings/properties"
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER TimezoneId
+Parameter description
+
+.PARAMETER Detail
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2Timezones {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
@@ -201,6 +372,22 @@ function Get-Net2Timezones {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER TimezoneDayId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2TimezoneDays {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
@@ -214,6 +401,25 @@ function Get-Net2TimezoneDays {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER UserId
+Parameter description
+
+.PARAMETER DepartmentId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2Users {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
@@ -238,6 +444,25 @@ function Get-Net2Users {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER UserId
+Parameter description
+
+.PARAMETER TokenId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2UserTokens {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
@@ -254,6 +479,22 @@ function Get-Net2UserTokens {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER UserId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2UserDepartments {
     param(
         [Parameter(Mandatory, Position = 0)]
@@ -263,6 +504,22 @@ function Get-Net2UserDepartments {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER UserId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2UserDoorPermissionSet {
     param(
         [Parameter(Mandatory, Position = 0)]
@@ -272,6 +529,22 @@ function Get-Net2UserDoorPermissionSet {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER UserId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2UserImage {
     param(
         [Parameter(Mandatory, Position = 0)]
@@ -281,6 +554,22 @@ function Get-Net2UserImage {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER CustomFieldId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2UserCustomFieldNames {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
@@ -294,6 +583,22 @@ function Get-Net2UserCustomFieldNames {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER DepartmentId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2Departments {
     [CmdletBinding(DefaultParameterSetName = "All")]
     param(
@@ -307,13 +612,40 @@ function Get-Net2Departments {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2TokenTypes {
     Invoke-Net2ApiCall -Endpoint "/api/v1/users/token/types"
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2ApiVersions {
     Invoke-Net2ApiCall -Endpoint "/api/v1/versions"
 }
+
 
 function Get-Net2RollCallReports {
     $endpoint = "/api/v1/rollcallreports"
@@ -330,6 +662,19 @@ function Get-Net2Events {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Remove-Net2ApiToken {
     $body = @{
         "refreshToken" = $Script:RefreshToken
@@ -337,6 +682,22 @@ function Remove-Net2ApiToken {
     Invoke-Net2ApiCall -Endpoint "/api/v1/authorization/tokens" -Body $body -Method "Delete"
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER DoorId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Invoke-Net2OpenDoor {
     param(
         [Parameter(Mandatory, Position = 0)]
@@ -348,6 +709,22 @@ function Invoke-Net2OpenDoor {
     Invoke-Net2ApiCall -Endpoint "/api/v1/commands/door/open" -Body $body -Method "Post"
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER DoorId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Invoke-Net2HoldOpenDoor {
     param(
         [Parameter(Mandatory, Position = 0)]
@@ -359,6 +736,22 @@ function Invoke-Net2HoldOpenDoor {
     Invoke-Net2ApiCall -Endpoint "/api/v1/commands/door/holdopen" -Body $body -Method "Post"
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER DoorId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Invoke-Net2CloseDoor {
     param(
         [Parameter(Mandatory, Position = 0)]
@@ -370,6 +763,22 @@ function Invoke-Net2CloseDoor {
     Invoke-Net2ApiCall -Endpoint "/api/v1/commands/door/close" -Body $body -Method "Post"
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER UserId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Invoke-Net2ResetAntipassback {
     param(
         [Parameter(Mandatory, Position = 0)]
