@@ -88,7 +88,8 @@ Returns the access levels from the Net2 server
 
 .DESCRIPTION
 Returns the access levels from the Net2 server. Can be filtered to a single
-access level. Detail returns more information
+access level. Detail returns more information about the access level and its
+access.
 
 .PARAMETER AccessLevelId
 Number of the access level to return
