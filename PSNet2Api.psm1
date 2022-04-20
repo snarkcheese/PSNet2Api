@@ -3,7 +3,6 @@ $Script:Port = ""
 $Script:BaseUri = ""
 $Script:BearerToken = ""
 $Script:RefreshToken = ""
-# $Script:ClientId = ""
 
 <#
 .SYNOPSIS
