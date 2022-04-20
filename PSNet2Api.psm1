@@ -127,16 +127,10 @@ function Get-Net2AccessLevels {
 
 <#
 .SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
+Returns a list of areas from the Net2 server.
 
 .EXAMPLE
-An example
-
-.NOTES
-General notes
+Get-Net2Areas
 #>
 function Get-Net2Areas {
     Invoke-Net2ApiCall -Endpoint "/api/v1/accesslevels/areas"
