@@ -92,7 +92,7 @@ access level. Detail returns more information about the access level and its
 access.
 
 .PARAMETER AccessLevelId
-Number of the access level to return
+Id of the access level to return
 
 .PARAMETER Detail
 Returns additional detail for the access level
@@ -138,19 +138,20 @@ function Get-Net2Areas {
 
 <#
 .SYNOPSIS
-Short description
+Returns a list of area groups.
 
 .DESCRIPTION
-Long description
+Returns the area groups from the Net2 server. Can be filtered to a single
+area group.
 
 .PARAMETER AreaGroupId
-Parameter description
+Id of the area group to return
 
 .EXAMPLE
-An example
+Get-Net2AreaGroups
 
-.NOTES
-General notes
+.EXAMPLE
+Get-Net2AreaGroups -AreaGroupId 3
 #>
 function Get-Net2AreaGroups {
     [CmdletBinding(DefaultParameterSetName = "All")]
