@@ -215,28 +215,83 @@ function Get-Net2TimezoneDays {
 }
 
 function Get-Net2Users {
+    [CmdletBinding(DefaultParameterSetName = "All")]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$UserId,
+
+        [Parameter(ParameterSetName = "Department")]
+        [int]$DepartmentId
+    )
     $endpoint = "/api/v1/users"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $UserId
+    }
+    elseif ($PSCmdlet.ParameterSetName -eq "Department"){
+        if ($DepartmentId -eq 0) {
+            $endpoint = "/api/v1/departments/root/users"
+        }
+        else {
+            $endpoint = "/api/v1/departments/{0}/users" -f $DepartmentId
+        }
+    }
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
 function Get-Net2UserTokens {
+    [CmdletBinding(DefaultParameterSetName = "All")]
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$UserId,
 
+        [Parameter(ParameterSetName = "Single")]
+        [int]$TokenId
+    )
+    $endpoint = "/api/v1/users/{0}/tokens" -f $UserId
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $TokenId
+    }
+    Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
 function Get-Net2UserDepartments {
-
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$UserId
+    )
+    $endpoint = "/api/v1/users/{0}/departments" -f $UserId
+    Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
 function Get-Net2UserDoorPermissionSet {
-
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$UserId
+    )
+    $endpoint = "/api/v1/users/{0}/doorpermissionset" -f $UserId
+    Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
 function Get-Net2UserImage {
-
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$UserId
+    )
+    $endpoint = "/api/v1/users/{0}/image" -f $UserId
+    Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
-function Get-Net2UserCustomFields {
-
+function Get-Net2UserCustomFieldNames {
+    [CmdletBinding(DefaultParameterSetName = "All")]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$CustomFieldId
+    )
+    $endpoint = "/api/v1/users/customfieldnames"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $CustomFieldId
+    }
+    Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
 function Get-Net2Departments {
