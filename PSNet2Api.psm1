@@ -761,10 +761,83 @@ function Get-Net2IoBoards {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+<#
+.SYNOPSIS
+Short description
 
+.DESCRIPTION
+Long description
+
+.PARAMETER Where
+Parameter description
+
+.PARAMETER OrderBy
+Parameter description
+
+.PARAMETER RowCount
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2Events {
+    param(
+        [string]$Where,
+        [string]$OrderBy,
+        [int]$Count = 1000
+    )
+    $body = @{
+        "rowCount" = $MaximumCount
+    }
+    if ($Where) {
+        $body.add(
+            "where",
+            [System.Web.HttpUtility]::UrlEncode($Where)
+        )
+    }
+    if ($OrderBy) {
+        $body.add(
+            "orderBy",
+            [System.Web.HttpUtility]::UrlEncode($OrderBy)
+        )
+    }
     $endpoint = "/api/v1/events"
-    Invoke-Net2ApiCall -Endpoint $endpoint
+    Invoke-Net2ApiCall -Endpoint $endpoint -Body $body
+}
+
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER MaximumCount
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function Get-Net2LatestUnknownTokens {
+    param(
+        [int]$MaximumCount
+    )
+    $params = @{
+        "Endpoint" = "/api/v1/events/latestunknowntokens"
+    }
+    if ($MaximumCount) {
+        $body = @{
+            "max" = $MaximumCount
+        }
+        $params.Add("Body", $body)
+        Invoke-Net2ApiCall @params
+    }
 }
 
 <#
