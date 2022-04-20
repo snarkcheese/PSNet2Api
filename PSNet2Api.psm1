@@ -6,25 +6,25 @@ $Script:RefreshToken = ""
 
 <#
 .SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
+Calls Invoke-RestMethod with appropriate headers and params
 
 .PARAMETER Endpoint
-Parameter description
+Api endpoint to call
 
 .PARAMETER Body
-Parameter description
+Body to be sent to endpoint
 
 .PARAMETER Method
-Parameter description
+POST, GET, PUT or DELETE method
 
 .EXAMPLE
-An example
+Invoke-Net2ApiCall -Endpoint "/api/v1/users"
 
-.NOTES
-General notes
+.EXAMPLE
+$body = @{
+    "refreshToken" = "Token123"
+}
+Invoke-Net2ApiCall -Endpoint "/api/v1/authorization/tokens" -Body $body -Method "Delete"
 #>
 function Invoke-Net2ApiCall {
     param(
