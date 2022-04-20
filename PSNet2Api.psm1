@@ -84,22 +84,26 @@ function Get-Net2Operators {
 
 <#
 .SYNOPSIS
-Short description
+Returns the access levels from the Net2 server
 
 .DESCRIPTION
-Long description
+Returns the access levels from the Net2 server. Can be filtered to a single
+access level. Detail returns more information
 
 .PARAMETER AccessLevelId
-Parameter description
+Number of the access level to return
 
 .PARAMETER Detail
-Parameter description
+Returns additional detail for the access level
 
 .EXAMPLE
-An example
+Get-Net2AccessLevels
 
-.NOTES
-General notes
+.EXAMPLE
+Get-Net2AccessLevels -AccessLevelId 73
+
+.EXAMPLE
+Get-Net2AccessLevels -AccessLevelId 73 -Detail
 #>
 function Get-Net2AccessLevels {
     [CmdletBinding(DefaultParameterSetName = "All")]
