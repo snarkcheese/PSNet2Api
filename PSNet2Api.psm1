@@ -646,16 +646,121 @@ function Get-Net2ApiVersions {
     Invoke-Net2ApiCall -Endpoint "/api/v1/versions"
 }
 
+<#
+.SYNOPSIS
+Short description
 
+.DESCRIPTION
+Long description
+
+.PARAMETER ReportId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Get-Net2RollCallReports {
+    [CmdletBinding(DefaultParameterSetName = "All")]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$ReportId
+    )
     $endpoint = "/api/v1/rollcallreports"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $ReportId
+    }
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
-function Get-Net2IoBoards {
-    $endpoint = "/api/v1/ioboards"
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER ReportId
+Parameter description
+
+.PARAMETER ReportItemId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function Get-Net2RollCallReportItems {
+    [CmdletBinding(DefaultParameterSetName = "All")]
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$ReportId,
+
+        [Parameter(ParameterSetName = "Single")]
+        [int]$ReportItemId
+    )
+    $endpoint = "/api/v1/rollcallreports/{0}/reportitems" -f $ReportId
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $ReportItemId
+    }
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
+
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER IoBoardId
+Parameter description
+
+.PARAMETER IoInfo
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function Get-Net2IoBoards {
+    [CmdletBinding(DefaultParameterSetName = "All")]
+    param(
+        [Parameter(ParameterSetName = "Single")]
+        [int]$IoBoardId,
+
+        [Parameter(ParameterSetName = "Single")]
+        [ValidateSet("Inputs", "Outputs", "Detailed")]
+        [int]$IoInfo
+    )
+    $endpoint = "/api/v1/ioboards"
+    if ($PSCmdlet.ParameterSetName -eq "Single") {
+        $endpoint = "{0}/{1}" -f $endpoint, $IoBoardId
+        switch ($IoInfo){
+            "Inputs" {
+                $endpoint = "{0}/inputs" -f $endpoint
+                break
+            }
+            "Outputs" {
+                $endpoint = "{0}/outputs" -f $endpoint
+                break
+            }
+            "Detailed" {
+                $endpoint = "{0}/detail" -f $endpoint
+                break
+            }
+            default {break}
+        }
+    }
+    Invoke-Net2ApiCall -Endpoint $endpoint
+}
+
 
 function Get-Net2Events {
     $endpoint = "/api/v1/events"
