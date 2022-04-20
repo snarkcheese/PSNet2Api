@@ -60,22 +60,16 @@ function Invoke-Net2ApiCall {
 
 <#
 .SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
+Returns a list of operators registered on the Net2 server
 
 .PARAMETER ComputerName
-Parameter description
+Name of the Net2 server
 
 .PARAMETER Port
-Parameter description
+Port for the api of the server
 
 .EXAMPLE
-An example
-
-.NOTES
-General notes
+Get-Net2Operators -ComputerName "ThisIsANet2Server.com"
 #>
 function Get-Net2Operators {
     param(
