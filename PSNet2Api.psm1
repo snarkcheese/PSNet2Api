@@ -244,44 +244,50 @@ function Get-Net2DoorGroups {
 
 <#
 .SYNOPSIS
-Short description
+Creates a connection to the Net2 API
 
 .DESCRIPTION
-Long description
+Creates a connection to the Net2 API and saves the details into varibles within
+the module. Can be used to refresh the OAuth token after connection is made with
+-Refresh
 
 .PARAMETER ComputerName
-Parameter description
+FQDN of the Net2 Server
 
 .PARAMETER ClientId
-Parameter description
+Client Id TODO
 
 .PARAMETER Port
-Parameter description
+Port used to connect to the Net2 server API. Defaults to 8080
 
 .PARAMETER Credential
-Parameter description
+Credential for the Net2 operator connecting
 
 .PARAMETER Refresh
-Parameter description
+Specifies to refresh the token instead of creating a new connection.
 
 .EXAMPLE
-An example
+$Server = net2.example.com
+$ClientId = '1188a9e2-6d68-4191-963f-6f962cf2e38d'
+$Credential = Get-Credential
+Connect-Net2API -ComputerName $Server -ClientId $ClientId -Credential $Credential
 
-.NOTES
-General notes
+.EXAMPLE
+Connect-Net2Api -Refresh
 #>
 function Connect-Net2Api {
     [CmdletBinding(DefaultParameterSetName = "Connect")]
     param(
 
-        [parameter(Mandatory, Position = 0)]
+        [parameter(Mandatory,ParameterSetName = "Connect", Position = 0)]
         [string]$ComputerName,
-        [parameter(Mandatory, Position = 1)]
+        [parameter(Mandatory,ParameterSetName = "Connect", Position = 1)]
         [string]$ClientId,
+        [Parameter(Mandatory, ParameterSetName = "Connect", Position = 2)]
+        [pscredential]$Credential,
+
         [string]$Port = "8080",
 
-        [Parameter(ParameterSetName = "Connect", Mandatory)]
-        [pscredential]$Credential,
         [Parameter(ParameterSetName = "Refresh", Mandatory)]
         [string]$Refresh
     )
