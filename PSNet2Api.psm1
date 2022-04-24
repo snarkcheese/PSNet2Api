@@ -168,22 +168,26 @@ function Get-Net2AreaGroups {
 
 <#
 .SYNOPSIS
-Short description
+Returns a list of doors from the Net2 system
 
 .DESCRIPTION
-Long description
+Returns a list of doors from the Net2 system. Can be limited to a single door or
+door group. Use 0 as the door group to see all doors outside a door group
 
 .PARAMETER DoorId
-Parameter description
+Id of single door
 
 .PARAMETER DoorGroupId
-Parameter description
+Id of single door group. Use 0 for doors outside a door group
 
 .EXAMPLE
-An example
+Get-Net2Doors
 
-.NOTES
-General notes
+.EXAMPLE
+Get-Net2Doors -DoorId 10
+
+.EXAMPLE
+Get-Net2Doors -DoorGroupId 3
 #>
 function Get-Net2Doors {
     [CmdletBinding(DefaultParameterSetName = "All")]
