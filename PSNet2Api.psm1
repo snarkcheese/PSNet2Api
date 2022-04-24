@@ -138,11 +138,11 @@ function Get-Net2Areas {
 
 <#
 .SYNOPSIS
-Returns a list of area groups.
+Returns a list of area groups
 
 .DESCRIPTION
 Returns the area groups from the Net2 server. Can be filtered to a single
-area group.
+area group
 
 .PARAMETER AreaGroupId
 Id of the area group to return
@@ -168,7 +168,7 @@ function Get-Net2AreaGroups {
 
 <#
 .SYNOPSIS
-Returns a list of doors from the Net2 system
+Returns a list of doors
 
 .DESCRIPTION
 Returns a list of doors from the Net2 system. Can be limited to a single door or
@@ -215,19 +215,19 @@ function Get-Net2Doors {
 
 <#
 .SYNOPSIS
-Short description
+Returns a list of door groups
 
 .DESCRIPTION
-Long description
+Returns a list of door groups. Canb be limited to a single door group
 
 .PARAMETER DoorGroupId
-Parameter description
+Id of the door group to return
 
 .EXAMPLE
-An example
+Get-DoorGroups
 
-.NOTES
-General notes
+.EXAMPLE
+Get-DoorGroups -DoorGroupId 3
 #>
 function Get-Net2DoorGroups {
     [CmdletBinding()]
