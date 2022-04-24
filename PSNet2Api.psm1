@@ -381,19 +381,19 @@ function Get-Net2Timezones {
 
 <#
 .SYNOPSIS
-Short description
+Returns the timezone days
 
 .DESCRIPTION
-Long description
+Returns a single or all timezone days
 
 .PARAMETER TimezoneDayId
-Parameter description
+Id of timezone day to return
 
 .EXAMPLE
-An example
+Get-Net2TimezoneDays
 
-.NOTES
-General notes
+.EXAMPLE
+Get-Net2TimezoneDays -TimezoneDayId 4
 #>
 function Get-Net2TimezoneDays {
     [CmdletBinding(DefaultParameterSetName = "All")]
