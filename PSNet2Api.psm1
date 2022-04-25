@@ -410,7 +410,7 @@ function Get-Net2TimezoneDays {
 
 <#
 .SYNOPSIS
-Short description
+Returns users from the Net2 system
 
 .DESCRIPTION
 Long description
@@ -453,7 +453,7 @@ function Get-Net2Users {
 
 <#
 .SYNOPSIS
-Short description
+Returns the tokens assigned to a user
 
 .DESCRIPTION
 Long description
@@ -488,7 +488,7 @@ function Get-Net2UserTokens {
 
 <#
 .SYNOPSIS
-Short description
+Returns a users department
 
 .DESCRIPTION
 Long description
@@ -538,7 +538,7 @@ function Get-Net2UserDoorPermissionSet {
 
 <#
 .SYNOPSIS
-Short description
+Returns a users image
 
 .DESCRIPTION
 Long description
@@ -563,7 +563,7 @@ function Get-Net2UserImage {
 
 <#
 .SYNOPSIS
-Short description
+Returns custom fields for a user
 
 .DESCRIPTION
 Long description
@@ -592,7 +592,7 @@ function Get-Net2UserCustomFieldNames {
 
 <#
 .SYNOPSIS
-Short description
+Returns user departments from the Net2 system
 
 .DESCRIPTION
 Long description
@@ -621,16 +621,10 @@ function Get-Net2Departments {
 
 <#
 .SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
+Returns a list of token types
 
 .EXAMPLE
-An example
-
-.NOTES
-General notes
+Get-Net2TokenTypes
 #>
 function Get-Net2TokenTypes {
     Invoke-Net2ApiCall -Endpoint "/api/v1/users/token/types"
@@ -638,16 +632,10 @@ function Get-Net2TokenTypes {
 
 <#
 .SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
+Returns a list of API versions
 
 .EXAMPLE
-An example
-
-.NOTES
-General notes
+Get-Net2ApiVersions
 #>
 function Get-Net2ApiVersions {
     Invoke-Net2ApiCall -Endpoint "/api/v1/versions"
@@ -849,39 +837,31 @@ function Get-Net2LatestUnknownTokens {
 
 <#
 .SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
+Remove and invalidate the OAuth refresh token
 
 .EXAMPLE
-An example
-
-.NOTES
-General notes
+Remove-Net2ApiToken
 #>
 function Remove-Net2ApiToken {
     $body = @{
         "refreshToken" = $Script:RefreshToken
     }
     Invoke-Net2ApiCall -Endpoint "/api/v1/authorization/tokens" -Body $body -Method "Delete"
+    $Script:RefreshToken = ''
 }
 
 <#
 .SYNOPSIS
-Short description
+Runs the open door command on the specified door
 
 .DESCRIPTION
-Long description
+Runs the open door command as specified in the doors configuration
 
 .PARAMETER DoorId
-Parameter description
+Id of the door to open
 
 .EXAMPLE
-An example
-
-.NOTES
-General notes
+Invoke-Net2OpenDoor -DoorId 54
 #>
 function Invoke-Net2OpenDoor {
     param(
@@ -896,19 +876,16 @@ function Invoke-Net2OpenDoor {
 
 <#
 .SYNOPSIS
-Short description
+Run the hold open command on the specified door
 
 .DESCRIPTION
-Long description
+Runs the hold open command which holds the door open until closed
 
 .PARAMETER DoorId
-Parameter description
+Id of the door to hold open
 
 .EXAMPLE
-An example
-
-.NOTES
-General notes
+Invoke-Ne2HoldOpenDoor -DoorId 34
 #>
 function Invoke-Net2HoldOpenDoor {
     param(
@@ -923,19 +900,16 @@ function Invoke-Net2HoldOpenDoor {
 
 <#
 .SYNOPSIS
-Short description
+Runs the close door command
 
 .DESCRIPTION
-Long description
+Runs the close door command closing a door that has been previously held open
 
 .PARAMETER DoorId
-Parameter description
+Id of the door to close
 
 .EXAMPLE
-An example
-
-.NOTES
-General notes
+Invoke-Net2CloseDoor -DoorId 65
 #>
 function Invoke-Net2CloseDoor {
     param(
@@ -950,19 +924,13 @@ function Invoke-Net2CloseDoor {
 
 <#
 .SYNOPSIS
-Short description
-
-.DESCRIPTION
-Long description
+Runs the Reset Antipassback command
 
 .PARAMETER UserId
-Parameter description
+Id of user to reset Antipassback for
 
 .EXAMPLE
-An example
-
-.NOTES
-General notes
+Invoke-Net2ResetAntipassback -UserId 22
 #>
 function Invoke-Net2ResetAntipassback {
     param(
