@@ -974,3 +974,51 @@ function Remove-Net2Users {
     $body = ConvertTo-Json -InputObject $UserIds
     Invoke-Net2ApiCall -Endpoint $endpoint -Body $body -Method "Delete"
 }
+
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER AccessLevelName
+Parameter description
+
+.PARAMETER AccessLevelDetail
+Parameter description
+
+.PARAMETER AccessLevelId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function New-AccessLevel {
+    param (
+        [parameter(Position = 0)]
+        [string]$AccessLevelName,
+
+        [parameter(Position = 1)]
+        [object[]]$AccessLevelDetail,
+
+        [int]$AccessLevelId
+    )
+    $t = @{}
+    if ($AccessLevelName) {
+        $t.add("name", $AccessLevelName)
+    }
+    if ($AccessLevelId) {
+        $t.add("id", $AccessLevelId)
+    }
+    if ($AccessLevelDetail) {
+        $t.add("detailRows", $AccessLevelDetail)
+    }
+    if ($t -ne @{}) {
+        $body = ConvertTo-Json -InputObject $t -Depth 5 -Compress
+        Invoke-Net2ApiCall -Endpoint "/api/accesslevels" -Method Post -Body $body
+    }
+}
