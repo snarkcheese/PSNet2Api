@@ -54,8 +54,8 @@ function Invoke-Net2ApiCall {
     if ($Body) {
         $params.Add("Body", $Body)
     }
-    $resp = Invoke-RestMethod @params
-    Write-Output $resp
+    $r = Invoke-RestMethod @params
+    Write-Output $r
 }
 
 <#
@@ -279,9 +279,9 @@ function Connect-Net2Api {
     [CmdletBinding(DefaultParameterSetName = "Connect")]
     param(
 
-        [parameter(Mandatory,ParameterSetName = "Connect", Position = 0)]
+        [parameter(Mandatory, ParameterSetName = "Connect", Position = 0)]
         [string]$ComputerName,
-        [parameter(Mandatory,ParameterSetName = "Connect", Position = 1)]
+        [parameter(Mandatory, ParameterSetName = "Connect", Position = 1)]
         [string]$ClientId,
         [Parameter(Mandatory, ParameterSetName = "Connect", Position = 2)]
         [pscredential]$Credential,
@@ -312,7 +312,7 @@ function Connect-Net2Api {
     $r = Invoke-RestMethod -Method Post -Uri $endpoint -body $payload -ContentType "application/json"
     $Script:BearerToken = $r.access_token
     $Script:RefreshToken = $r.refresh_token
-    write-output $r
+    Write-Output $r
 }
 
 <#
@@ -440,7 +440,7 @@ function Get-Net2Users {
     if ($PSCmdlet.ParameterSetName -eq "Single") {
         $endpoint = "{0}/{1}" -f $endpoint, $UserId
     }
-    elseif ($PSCmdlet.ParameterSetName -eq "Department"){
+    elseif ($PSCmdlet.ParameterSetName -eq "Department") {
         if ($DepartmentId -eq 0) {
             $endpoint = "/api/v1/departments/root/users"
         }
@@ -737,7 +737,7 @@ function Get-Net2IoBoards {
     $endpoint = "/api/v1/ioboards"
     if ($PSCmdlet.ParameterSetName -eq "Single") {
         $endpoint = "{0}/{1}" -f $endpoint, $IoBoardId
-        switch ($IoInfo){
+        switch ($IoInfo) {
             "Inputs" {
                 $endpoint = "{0}/inputs" -f $endpoint
                 break
@@ -750,7 +750,7 @@ function Get-Net2IoBoards {
                 $endpoint = "{0}/detail" -f $endpoint
                 break
             }
-            default {break}
+            default { break }
         }
     }
     Invoke-Net2ApiCall -Endpoint $endpoint
@@ -1166,13 +1166,132 @@ function Set-Net2AlarmAcknowledged {
     )
     $params = @{
         "Endpoint" = "/api/v1/events/alarms/acknowledge"
-        "Method" = "Post"
+        "Method"   = "Post"
     }
     if ($PSCmdlet.ParameterSetName -eq "ID") {
-        $params.Add("Body", @{"eventId" = $EventId})
+        $params.Add("Body", @{"eventId" = $EventId })
     }
     if ($PSCmdlet.ParameterSetName -eq "Address") {
-        $params.add("Body", @{"address" = $ACUAddress})
+        $params.add("Body", @{"address" = $ACUAddress })
     }
     Invoke-Net2ApiCall @params
 }
+
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER TokenType
+Parameter description
+
+.PARAMETER TokenNumber
+Parameter description
+
+.PARAMETER IsLost
+Parameter description
+
+.PARAMETER TokenId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function New-Net2Token {
+    param(
+        [ValidateSet('Unspecified', 'ProxCard', 'ProxIsoCard',
+            'Keyfob', 'HandsFreeToken', 'Watchprox',
+            'ProxIsoCardWithoutMagstripe', 'VehicleNumberPlate', 'HandsFreeKeyCard',
+            'FingerprintVerificationCard', 'TelephoneCallerId')]
+        [Parameter(Mandatory, Position = 0)]
+        [string]$TokenType,
+
+        [Parameter(Mandatory, Position = 1)]
+        [string]$TokenValue,
+
+        [switch]$IsLost = $false,
+
+        [int]$TokenId
+    )
+    $token = @{
+        "tokenType"  = $TokenType
+        "tokenValue" = $TokenValue
+    }
+    if ($IsLost) {
+        $token.Add("isLost", "true")
+    }
+    if ($TokenId) {
+        $token.Add("id", $TokenId)
+    }
+
+    Write-Output $token
+}
+
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER UserID
+Parameter description
+
+.PARAMETER Token
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function Add-Net2UserToken {
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$UserId,
+
+        [Parameter(Mandatory, Position = 1)]
+        [object]$Token
+    )
+    $endpoint = "/api/v1/users/{0}/tokens" -f $UserId
+    $body = ConvertTo-Json -InputObject $Token
+    Invoke-Net2ApiCall -Endpoint $endpoint -Body $body -Method "Post"
+}
+
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER UserId
+Parameter description
+
+.PARAMETER TokenId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function Remove-Net2UserToken {
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [int]$UserId,
+
+        [Parameter(Mandatory, Position = 1)]
+        [object]$TokenId
+    )
+    $endpoint = "/api/v1/users/{0}/tokens/{1}" -f $UserId, $TokenId
+    Invoke-Net2ApiCall -Endpoint $endpoint -Method "Delete"
+}
+
