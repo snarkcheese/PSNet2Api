@@ -1432,13 +1432,13 @@ function Set-Net2Department {
     param(
         [parameter(Mandatory, Position = 0)]
         [int]$DepartmentId,
+        [Parameter(Mandatory, Position = 1)]
         [string]$NewName,
         [int]$NewId
     )
     $endpoint = "/api/v1/departments/{0}" -f $DepartmentId
-    $department = @{}
-    if ($NewName) {
-        $department.Add("name", $NewName)
+    $department = @{
+        "name" = $NewName
     }
     if ($NewId) {
         $department.Add("id", $NewId)
@@ -1472,10 +1472,45 @@ function Remove-Net2Department {
     Invoke-Net2ApiCall -Endpoint $endpoint -Method Delete
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER UserId
+Parameter description
+
+.PARAMETER DepartmentName
+Parameter description
+
+.PARAMETER DepartmentId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Set-Net2UserDepartment {
     param(
-
+        [Parameter(Mandatory, Position = 0)]
+        [int]$UserId,
+        [Parameter(Mandatory, Position = 1)]
+        [string]$DepartmentName,
+        [int]$DepartmentId
     )
+    $endpoint = "/api/v1/users/{0}/departments" -f $UserId
+    $department = @{
+        "name" = $DepartmentName
+    }
+    if ($DepartmentId) {
+        $department.Add("id", $DepartmentId)
+    }
+    $body = ConvertTo-Json -InputObject $department
+    Invoke-Net2ApiCall -Endpoint $endpoint -Body $body -Method Put
 }
 
 function Remove-Net2UserDepartment {
