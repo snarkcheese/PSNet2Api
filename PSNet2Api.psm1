@@ -1406,10 +1406,45 @@ function New-Net2Department {
     Invoke-Net2ApiCall -Endpoint "/api/v1/departments" -Method Post -Body $body
 }
 
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER DepartmentId
+Parameter description
+
+.PARAMETER NewName
+Parameter description
+
+.PARAMETER NewId
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Set-Net2Department {
     param(
-
+        [parameter(Mandatory, Position = 0)]
+        [int]$DepartmentId,
+        [string]$NewName,
+        [int]$NewId
     )
+    $endpoint = "/api/v1/departments/{0}" -f $DepartmentId
+    $department = @{}
+    if ($NewName) {
+        $department.Add("name", $NewName)
+    }
+    if ($NewId) {
+        $department.Add("id", $NewId)
+    }
+    $body = ConvertTo-Json $department
+    Invoke-Net2ApiCall -Endpoint $endpoint -Method Put -Body $body
 }
 
 function Remove-Net2Department {
