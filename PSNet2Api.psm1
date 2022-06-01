@@ -1370,3 +1370,51 @@ function Set-Net2UserToken {
         Invoke-Net2ApiCall -Endpoint $endpoint -Method "Put" -Body $body
     }
 }
+
+function New-Net2Department {
+    param(
+
+    )
+}
+
+function Set-Net2Department {
+    param(
+        
+    )
+}
+
+function Remove-Net2Department {
+    param(
+
+    )
+}
+
+function Set-Net2UserDepartment {
+    param(
+
+    )
+}
+
+function Remove-Net2UserDepartment {
+    param(
+
+    )
+}
+
+function New-Net2User {
+    param(
+
+    )
+}
+
+function Set-Net2User {
+    param(
+
+    )
+}
+
+function Remove-Net2User {
+    param(
+
+    )
+}

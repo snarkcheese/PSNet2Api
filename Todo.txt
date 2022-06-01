@@ -1,0 +1,5 @@
+IOBoards POST
+User doorpermissionsets PUT
+User image PUT DELETE
+Timezones POST PUT DELETE
+RollCallreports POST DELETE
