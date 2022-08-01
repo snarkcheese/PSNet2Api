@@ -785,7 +785,7 @@ function Get-Net2Events {
         [int]$Count = 1000
     )
     $body = @{
-        "rowCount" = $MaximumCount
+        "rowCount" = $Count
     }
     if ($Where) {
         $body.add(
@@ -1521,7 +1521,7 @@ function Remove-Net2UserDepartment {
 
 function New-Net2User {
     param(
-
+        
     )
 }
 
