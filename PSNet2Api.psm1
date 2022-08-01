@@ -1,3 +1,4 @@
+$Script:ClientId = ""
 $Script:ComputerName = ""
 $Script:Port = ""
 $Script:BaseUri = ""
@@ -289,23 +290,28 @@ function Connect-Net2Api {
         [string]$Port = "8080",
 
         [Parameter(ParameterSetName = "Refresh", Mandatory)]
-        [string]$Refresh
+        [switch]$Refresh
     )
-    $body = @{
-        "client_id" = $ClientId
-    }
     if ($PSCmdlet.ParameterSetName -eq "Connect") {
         $Script:ComputerName = $ComputerName
         $Script:Port = $Port
         $Script:BaseUri = "http://{0}:{1}" -f $ComputerName, $Port
-        $body.add("username", $Credential.UserName)
-        $body.add("password", $Credential.GetNetworkCredential().Password)
-        $body.add("grant_type", "password")  
+        $Script:ClientId = $ClientId
+        $body = @{
+            "client_id"  = $ClientId
+            "username"   = $Credential.UserName
+            "password"   = $Credential.GetNetworkCredential().Password
+            "grant_type" = "password"
+            "scope"      = "offline_access"
+        }
     }
     else {
-        $body.add("refresh_token", $Script:RefreshToken)
-        $body.add("scope", "offline_access")
-        $body.add("grant_type", "refresh_token") 
+        $body = @{
+            "client_id"     = $Script:ClientId
+            "refresh_token" = $Script:RefreshToken
+            "scope"         = "offline_access"
+            "grant_type"    = "refresh_token"
+        }
     }
     $endpoint = "$($Script:BaseUri)/api/v1/authorization/tokens"
     $payload = $body | ConvertTo-Json
