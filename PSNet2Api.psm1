@@ -1,3 +1,4 @@
+#region Private
 $Script:ClientId = ""
 $Script:ComputerName = ""
 $Script:Port = ""
@@ -58,31 +59,8 @@ function Invoke-Net2ApiCall {
     $r = Invoke-RestMethod @params
     Write-Output $r
 }
-
-<#
-.SYNOPSIS
-Returns a list of operators registered on the Net2 server
-
-.PARAMETER ComputerName
-Name of the Net2 server
-
-.PARAMETER Port
-Port for the api of the server
-
-.EXAMPLE
-Get-Net2Operators -ComputerName "ThisIsANet2Server.com"
-#>
-function Get-Net2Operators {
-    param(
-        [parameter(Mandatory, Position = 0)]
-        [string]$ComputerName,
-
-        [string]$Port = "8080"
-    )
-    $endpoint = "http://{0}:{1}/api/v1/operators" -f $ComputerName, $Port
-    Invoke-RestMethod -Uri $endpoint
-}
-
+#endregion
+#region AccessLevels
 <#
 .SYNOPSIS
 Returns the access levels from the Net2 server
@@ -136,7 +114,9 @@ Get-Net2Areas
 function Get-Net2Areas {
     Invoke-Net2ApiCall -Endpoint "/api/v1/accesslevels/areas"
 }
+#endregion
 
+#region AreaGroups
 <#
 .SYNOPSIS
 Returns a list of area groups
@@ -166,7 +146,21 @@ function Get-Net2AreaGroups {
     }
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
+#endregion
 
+#region Authorization
+
+#endregion
+
+#region Commands
+
+#endregion
+
+#region Database
+
+#endregion
+
+#region Doors
 <#
 .SYNOPSIS
 Returns a list of doors
@@ -242,6 +236,63 @@ function Get-Net2DoorGroups {
     }
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
+#endregion
+
+#region Events
+
+#endregion
+
+#region IoBoards
+
+#endregion
+
+#region Operators
+
+<#
+.SYNOPSIS
+Returns a list of operators registered on the Net2 server
+
+.PARAMETER ComputerName
+Name of the Net2 server
+
+.PARAMETER Port
+Port for the api of the server
+
+.EXAMPLE
+Get-Net2Operators -ComputerName "ThisIsANet2Server.com"
+#>
+function Get-Net2Operators {
+    param(
+        [parameter(Mandatory, Position = 0)]
+        [string]$ComputerName,
+
+        [string]$Port = "8080"
+    )
+    $endpoint = "http://{0}:{1}/api/v1/operators" -f $ComputerName, $Port
+    Invoke-RestMethod -Uri $endpoint
+}
+
+#endregion
+
+#region RollCallReports
+
+#endregion
+
+#region ServerSettings
+
+#endregion
+
+#region Timezones
+
+#endregion
+
+#region Users
+
+#endregion
+
+#region Versions
+
+#endregion
 
 <#
 .SYNOPSIS
