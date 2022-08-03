@@ -110,10 +110,10 @@
     - [ ] DELETE
     - [x] GET
     - [x] PUT
-- [ ] /departments
+- [x] /departments
     - [x] GET
     - [x] POST
-- [ ] /departments/{id}
+- [x] /departments/{id}
     - [x] DELETE
     - [x] GET
     - [x] PUT
@@ -124,10 +124,10 @@
     - [ ] DELETE
     - [x] GET
     - [ ] PUT
-- [ ] /users/{userId}/tokens
+- [x] /users/{userId}/tokens
     - [x] GET
     - [x] POST
-- [ ] /users/{userId}/tokens/{tokenId}
+- [x] /users/{userId}/tokens/{tokenId}
     - [x] DELETE
     - [x] GET
     - [x] PUT
