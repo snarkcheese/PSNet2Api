@@ -127,7 +127,7 @@ An example
 .NOTES
 General notes
 #>
-function New-AccessLevel {
+function Add-AccessLevel {
     param (
         [parameter(Position = 0)]
         [string]$AccessLevelName,
@@ -1548,28 +1548,3 @@ function Get-Net2ApiVersions {
     Invoke-Net2ApiCall -Endpoint "/api/v1/versions"
 }
 #endregion
-
-
-function Remove-Net2UserDepartment {
-    param(
-
-    )
-}
-
-function New-Net2User {
-    param(
-        
-    )
-}
-
-function Set-Net2User {
-    param(
-
-    )
-}
-
-function Remove-Net2User {
-    param(
-
-    )
-}
