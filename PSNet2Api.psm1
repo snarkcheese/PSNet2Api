@@ -1,7 +1,7 @@
 #region Private
 $Script:ClientId = ""
 $Script:ComputerName = ""
-$Script:Port = ""
+$Script:Port = 8080
 $Script:BaseUri = ""
 $Script:BearerToken = ""
 $Script:RefreshToken = ""
@@ -774,7 +774,7 @@ function Get-Net2Operators {
         [parameter(Mandatory, Position = 0)]
         [string]$ComputerName,
 
-        [string]$Port = "8080"
+        [string]$Port = $Script:Port
     )
     $endpoint = "http://{0}:{1}/api/v1/operators" -f $ComputerName, $Port
     Invoke-RestMethod -Uri $endpoint
@@ -1020,6 +1020,164 @@ function Get-Net2Users {
     Invoke-Net2ApiCall -Endpoint $endpoint
 }
 
+function New-Net2User {
+    param(
+        [parameter(Mandatory, Position = 0)]
+        [string]$FirstName,
+        [parameter(Mandatory, Position = 1)]
+        [string]$LastName,
+
+        [string]$MiddleName,
+        [string]$ExpiryDate,
+        [string]$ActivationDate,
+        [string]$PIN,
+        [string]$Telephone,
+        [string]$Extension,
+        [string]$Fax,
+        [bool]$IsAntiPassbackUser = $false,
+        [bool]$IsAlarmUser = $false,
+        [bool]$IsLockdownExempt = $false,
+        [bool]$HasImage = $false,
+        [System.Object[]]$CustomFields,
+        [System.Object]$PermissionSet
+    )
+    $obj = @{
+        'firstName'          = $FirstName
+        'lastName'           = $LastName
+        "isAntiPassbackUser" = $IsAntiPassbackUser
+        "isAlarmUser"        = $IsAlarmUser
+        "isLockdownExempt"   = $IsLockdownExempt
+        "hasImage"           = $HasImage
+    }
+    if ($PSBoundParameters.ContainsKey('MiddleName')) {
+        $obj.Add('middleName', $MiddleName)
+    }
+    if ($PSBoundParameters.ContainsKey('ExpiryDate')) {
+        $obj.Add('expiryDate', $ExpiryDate)
+    }
+    if ($PSBoundParameters.ContainsKey('ActivationDate')) {
+        $obj.Add('activateDate', $ActivationDate)
+    }
+    if ($PSBoundParameters.ContainsKey('PIN')) {
+        $obj.Add('pin', $PIN)
+    }
+    if ($PSBoundParameters.ContainsKey('Telephone')) {
+        $obj.Add('telephone', $Telephone)
+    }
+    if ($PSBoundParameters.ContainsKey('Extension')) {
+        $obj.Add('extension', $Extension)
+    }
+    if ($PSBoundParameters.ContainsKey('Fax')) {
+        $obj.Add('fax', $Fax)
+    }
+    if ($PSBoundParameters.ContainsKey('CustomFields')) {
+        $obj.Add('customFields', $CustomFields)
+    }
+    if ($PSBoundParameters.ContainsKey('PermissionSet')) {
+        $obj.Add('doorAccessPermissionSet', $PermissionSet)
+    }
+    $body = ConvertTo-Json -InputObject $obj
+    Invoke-Net2ApiCall -Endpoint "/api/v1/users" -Method Post -Body $body
+}
+
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function New-Net2DoorAccessRight {
+    param {
+        [Parameter(Mandatory, Position = 0)]
+        [ValidateScript({ $_ -ge 0 })]
+        [int]$DoorId,
+
+        [Parameter(Mandatory, Position = 1)]
+        [ValidateScript({ $_ -ge 0 })]
+        [int]$TimezoneId
+    }
+    @{
+        'id'         = $DoorId
+        'timezoneId' = $TimezoneId
+    }
+}
+
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER AccessLevelIds
+Parameter description
+
+.PARAMETER IndividualPermissions
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function New-Net2DoorAccessPermissionSet {
+    param(
+        [int[]]$AccessLevelIds = @(),
+        [System.Object[]]$IndividualPermissions = @()
+    )
+    @{
+        "accessLevels"          = $AccessLevelIds
+        "individualPermissions" = $IndividualPermissions
+    }
+}
+
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER CustomFieldId
+Parameter description
+
+.PARAMETER Value
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function New-Net2UserCustomField {
+    param(
+        [Parameter(Mandatory, Position = 0)]
+        [ValidateRange(1, 14)]
+        [int]$CustomFieldId,
+
+        [Parameter(Position = 1)]
+        [string]$Value = ''
+    )
+    $field = Get-Net2UserCustomFieldNames -CustomFieldId $CustomFieldId
+    if ($value.Length -gt $field.maxLength) {
+        Write-Error -Message "Value too long for field" -Category InvalidData
+        return
+    }
+    @{
+        "id"    = $CustomFieldId
+        "value" = $Value
+    }
+}
+
 <#
 .SYNOPSIS
 Returns a users department
@@ -1072,15 +1230,15 @@ function Set-Net2UserDepartment {
         [Parameter(Mandatory, Position = 0)]
         [int]$UserId,
         [Parameter(Mandatory, Position = 1)]
-        [string]$DepartmentName,
-        [int]$DepartmentId
+        [int]$DepartmentId,
+        [string]$DepartmentName
     )
     $endpoint = "/api/v1/users/{0}/departments" -f $UserId
     $department = @{
-        "name" = $DepartmentName
+        "id" = $DepartmentId
     }
-    if ($DepartmentId) {
-        $department.Add("id", $DepartmentId)
+    if ($PSBoundParameters.ContainsKey('DepartmentName')) {
+        $department.Add("name", $DepartmentName)
     }
     $body = ConvertTo-Json -InputObject $department
     Invoke-Net2ApiCall -Endpoint $endpoint -Body $body -Method Put
