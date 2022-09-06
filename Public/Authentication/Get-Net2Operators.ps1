@@ -16,8 +16,10 @@ function Get-Net2Operators {
         [parameter(Mandatory, Position = 0)]
         [string]$ComputerName,
 
-        [string]$Port = $Script:Port
+        [string]$Port = "8080",
+        [swicth]$UseSSL
     )
-    $endpoint = "http://{0}:{1}/api/v1/operators" -f $ComputerName, $Port
-    Invoke-RestMethod -Uri $endpoint
+    $proto = if ($UseSSL) { 'https' } else { 'http' }
+    $uri = "{0}://{1}:{2}/api/v1/operators" -f $proto, $ComputerName, $Port
+    Invoke-RestMethod -Uri $uri
 }
