@@ -11,7 +11,7 @@ An example
 .NOTES
 General notes
 #>
-function New-Net2DoorAccessRight {
+function New-Net2UserDoorPermission {
     param {
         [Parameter(Mandatory, Position = 0)]
         [ValidateScript({ $_ -ge 0 })]

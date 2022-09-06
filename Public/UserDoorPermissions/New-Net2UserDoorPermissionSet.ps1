@@ -17,7 +17,7 @@ An example
 .NOTES
 General notes
 #>
-function New-Net2DoorAccessPermissionSet {
+function New-Net2DoorPermissionSet {
     param(
         [int[]]$AccessLevelIds = @(),
         [System.Object[]]$IndividualPermissions = @()

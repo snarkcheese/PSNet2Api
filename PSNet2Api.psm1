@@ -5,6 +5,20 @@ $Script:BaseUri = ""
 $Script:BearerToken = ""
 $Script:RefreshToken = ""
 
+
+$Private = Get-ChildItem "$PSScriptRoot\Private\*.ps1" -Recurse -File
+$Public = Get-ChildItem "$PSScriptRoot\Public\*.ps1" -Recurse -File
+
+foreach ($import in $Private) {
+    . $import.FullName
+}
+
+foreach ($import in $Public) {
+    . $import.FullName
+}
+
+Export-ModuleMember -Function $Public.BaseName
+
 # <#
 # .SYNOPSIS
 # Creates a connection to the Net2 API
@@ -106,16 +120,3 @@ $Script:RefreshToken = ""
 #     $endpoint = "http://{0}:{1}/api/v1/operators" -f $ComputerName, $Port
 #     Invoke-RestMethod -Uri $endpoint
 # }
-
-$Private = Get-ChildItem "$PSScriptRoot\Private\*.ps1" -Recurse -File
-$Public = Get-ChildItem "$PSScriptRoot\Public\*.ps1" -Recurse -File
-
-foreach ($f in $private) {
-    . $f.FullName
-}
-
-foreach ($f in $Public) {
-    . $f.FullName
-}
-
-Export-ModuleMember -Function $Public.BaseName
