@@ -34,7 +34,6 @@ Connect-Net2Api -Refresh
 function Connect-Net2Api {
     [CmdletBinding(DefaultParameterSetName = "Connect")]
     param(
-
         [parameter(Mandatory, ParameterSetName = "Connect", Position = 0)]
         [string]$ComputerName,
         [parameter(Mandatory, ParameterSetName = "Connect", Position = 1)]
@@ -43,6 +42,7 @@ function Connect-Net2Api {
         [pscredential]$Credential,
 
         [string]$Port = "8080",
+        [switch]$UseSSL,
 
         [Parameter(ParameterSetName = "Refresh", Mandatory)]
         [switch]$Refresh
@@ -50,7 +50,8 @@ function Connect-Net2Api {
     if ($PSCmdlet.ParameterSetName -eq "Connect") {
         $Script:ComputerName = $ComputerName
         $Script:Port = $Port
-        $Script:BaseUri = "http://{0}:{1}" -f $ComputerName, $Port
+        $proto = if ($UseSSL) { 'https' } else { 'http' }
+        $Script:BaseUri = "{0}://{1}:{2}" -f $proto, $ComputerName, $Port
         $Script:ClientId = $ClientId
         $body = @{
             "client_id"  = $ClientId
