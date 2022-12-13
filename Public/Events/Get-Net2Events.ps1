@@ -30,16 +30,11 @@ function Get-Net2Events {
         "rowCount" = $Count
     }
     if ($Where) {
-        $body.add(
-            "where",
-            [System.Web.HttpUtility]::UrlEncode($Where)
-        )
+        $body.add("where", $Where)
     }
     if ($OrderBy) {
         $body.add(
-            "orderBy",
-            [System.Web.HttpUtility]::UrlEncode($OrderBy)
-        )
+            "orderBy", $OrderBy)
     }
     $endpoint = "/api/v1/events"
     Invoke-Net2ApiCall -Endpoint $endpoint -Body $body
