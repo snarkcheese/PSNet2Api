@@ -1,18 +1,15 @@
 <#
 .SYNOPSIS
-Short description
+Send a query string to query the SDK database.
 
 .DESCRIPTION
-Long description
+Send a custom query to the Net2 database. Database tables can be found on the paxton forums.
 
 .PARAMETER Query
-Parameter description
+SQL query to send to the database.
 
 .EXAMPLE
-An example
-
-.NOTES
-General notes
+Invoke-Net2DatabaseQuery -Query 'select * from AreasEx'
 #>
 function Invoke-Net2DatabaseQuery {
     param(
