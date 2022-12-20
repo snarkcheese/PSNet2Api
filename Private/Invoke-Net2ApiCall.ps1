@@ -1,6 +1,9 @@
 <#
 .SYNOPSIS
-Calls Invoke-RestMethod with appropriate headers and params
+Makes a rest API call to the specified endpoint
+
+.DESCRIPTION
+Calls Invoke-RestMethod with appropriate headers and params. Automatically adds common headers.
 
 .PARAMETER Endpoint
 Api endpoint to call
