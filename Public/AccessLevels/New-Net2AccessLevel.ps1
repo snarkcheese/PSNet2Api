@@ -1,28 +1,38 @@
 <#
 .SYNOPSIS
-Short description
+Creates a new access level
 
 .DESCRIPTION
-Long description
+Creates a new access level on the Net2 Server
 
 .PARAMETER AccessLevelName
-Parameter description
+Name for the access level
 
 .PARAMETER AccessLevelDetail
-Parameter description
+An array of AccessLevelDetailRow
 
 .PARAMETER AccessLevelId
-Parameter description
+optional id for the access level
 
 .EXAMPLE
-An example
+New-Net2AccessLevel -AccessLevelName "NewAccessLevel"
 
-.NOTES
-General notes
+.EXAMPLE
+$AccessLevelDetail = @(
+    @{
+        "areaID" = 1
+        "timezoneID" = 1
+    },
+    @{
+        "areaID" = 2
+        "timezoneID" = 1
+    }
+)
+New-Net2AccessLevel -AccessLevelName "NewAccessLevel" -AccessLevelDetail $AccessLevelDetail
 #>
 function New-Net2AccessLevel {
     param (
-        [parameter(Position = 0)]
+        [parameter(Position = 0, Mandatory)]
         [string]$AccessLevelName,
 
         [parameter(Position = 1)]
@@ -30,22 +40,13 @@ function New-Net2AccessLevel {
 
         [int]$AccessLevelId
     )
-    $new = $false
-    $t = @{}
-    if ($AccessLevelName) {
-        $t.add("name", $AccessLevelName)
-        $new = $true
-    }
+    $t = @{ "name" = $AccessLevelName }
     if ($AccessLevelId) {
         $t.add("id", $AccessLevelId)
-        $new = $true
     }
     if ($AccessLevelDetail) {
         $t.add("detailRows", $AccessLevelDetail)
-        $new = $true
     }
-    if ($new) {
-        $body = ConvertTo-Json -InputObject $t -Depth 5 -Compress
-        Invoke-Net2ApiCall -Endpoint "/api/v1/accesslevels" -Method "Post" -Body $body
-    }
+    $body = ConvertTo-Json -InputObject $t -Depth 5 -Compress
+    Invoke-Net2ApiCall -Endpoint "/api/v1/accesslevels" -Method "Post" -Body $body
 }
