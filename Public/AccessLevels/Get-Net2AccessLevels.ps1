@@ -7,6 +7,12 @@ Returns the access levels from the Net2 server. Can be filtered to a single
 access level. Detail returns more information about the access level and its
 access.
 
+Handles
+
+GET /api/v1/accesslevels
+GET /api/v1/accesslevels/{id}
+GET /api/v1/accesslevels/{id}/detail
+
 .PARAMETER AccessLevelId
 Id of the access level to return
 

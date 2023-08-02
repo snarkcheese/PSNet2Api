@@ -6,6 +6,11 @@ Returns a list of area groups
 Returns the area groups from the Net2 server. Can be filtered to a single
 area group
 
+Handles
+
+GET /api/v1/areagroups
+GET /api/v1/areagroups/{id}
+
 .PARAMETER AreaGroupId
 Id of the area group to return
 
