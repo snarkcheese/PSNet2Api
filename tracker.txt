@@ -1,0 +1,141 @@
+# Tracker
+
+## AccessLevels
+
+[x] GET     /api/v1/accesslevels
+[x] POST    /api/v1/accesslevels
+[x] DELETE  /api/v1/accesslevels
+[x] GET     /api/v1/accesslevels/{id}
+[x] PUT     /api/v1/accesslevels/{id}
+[x] GET     /api/v1/accesslevels/{id}/detail
+[x] GET     /api/v1/accesslevels/areas
+
+## AreaGroups
+
+[x] GET     /api/v1/areagroups
+[x] GET     /api/v1/areagroups/{id}
+
+## Authorization
+
+[x] POST    /api/v1/authorization/tokens
+[x] DELETE  /api/v1/authorization/tokens
+
+## Commands
+
+[x] POST    /api/v1/commands/door/open
+[x] POST    /api/v1/commands/door/holdopen
+[x] POST    /api/v1/commands/door/close
+[ ] POST    /api/v1/commands/door/control
+[x] POST    /api/v1/commmands/antipassback/reset
+
+## Database
+
+[x] GET     /api/v1/customquery/querydb
+
+## Doors
+
+[x] GET     /api/v1/doors
+[x] GET     /api/v1/doors/{id}
+[x] GET     /api/v1/doorgroups/{doorGroupId}/doors
+[x] GET     /api/v1/doorgroups/root/doors
+[x] GET     /api/v1/doorgroups
+[x] GET     /api/v1/doorgroups/{id}
+
+## Events
+
+[x] GET     /api/v1/events/lastunknowntokens
+[x] GET     /api/v1/events
+[ ] GET     /api/v1/events/acknowledge
+[x] POST    /api/v1/events/acknowledge
+
+## IoBoards
+
+[x] GET     /api/v1/ioboards
+[x] GET     /api/v1/ioboards/{id}
+[x] GET     /api/v1/ioboards/{id}/inputs
+[x] GET     /api/v1/ioboards/{id}/outputs
+[x] GET     /api/v1/ioboards/{id}/detail
+[ ] POST    /api/v1/ioboards/{id}/relays
+
+## Operators
+
+[x] GET     /api/v1/operators
+
+## RollCallreports
+
+[x] GET     /api/v1/rollcalreports/{id}
+[x] GET     /api/v1/rollcallreports
+[ ] POST    /api/v1/rollcallreports
+[x] GET     /api/v1/rollcallreports/{id}/reportitems
+[x] GET     /api/v1/rollcallreports/{id}/repottitems/{userId}
+[ ] POST    /api/v1/rollcalreports/{id}/reportitems/{userId}/safeupdates
+[ ] DELETE  /api/v1/rollcalreports/{id}/reportitems/{userId}/safeupdates/{safeById}
+
+## ServerSettings
+
+[x] GET     /api/v1/serversettings/features
+[x] GET     /api/v1/serversettings/properties
+
+## Timezones
+
+[x] GET     /api/v1/timezones
+[ ] POST    /api/v1/timezones
+
+[ ] DELETE  /api/v1/timezones/{id}
+[x] GET     /api/v1/timezones/{id}
+[ ] PUT     /api/v1/timezones/{id}
+
+[x] GET     /timezones/{id}/detail
+
+[x] GET     /timezones/days
+
+[x] GET     /timezones/days/{id}
+
+## Users
+
+[x] DELETE  /api/v1/users
+[x] GET     /api/v1/users
+[ ] POST    /api/v1/users
+
+[x] GET     /api/v1/departments/{departmentId}/users
+
+[x] GET     /api/v1/departments/root/users
+
+[ ] DELETE  /api/v1/users/{id}
+[x] GET     /api/v1/users/{id}
+[ ] PUT     /api/v1/users/{id}
+
+[ ] DELETE  /api/v1/users/{userId}/departments
+[x] GET     /api/v1/users/{userId}/departments
+[x] PUT     /api/v1/users/{userId}/departments
+
+[x] GET     /api/v1/departments
+[x] POST    /api/v1/departments
+
+[x] DELETE  /api/v1/departments/{id}
+[x] GET     /api/v1/departments/{id}
+[x] PUT     /api/v1/departments/{id}
+
+[x] GET     /api/v1/users/{userId}/doorpermissionset
+[ ] PUT     /api/v1/users/{userId}/doorpermissionset
+
+[ ] DELETE  /api/v1/users/{userId}/image
+[x] GET     /api/v1/users/{userId}/image
+[ ] PUT     /api/v1/users/{userId}/image
+
+[x] GET     /api/v1/users/{userId}/tokens
+[x] POST    /api/v1/users/{userId}/tokens
+
+[x] DELETE  /api/v1/users/{userId}/tokens/{tokenId}
+[x] GET     /api/v1/users/{userId}/tokens/{tokenId}
+[x] PUT     /api/v1/users/{userId}/tokens/{tokenId}
+
+[x] GET     /api/v1/users/token/types
+
+[x] GET     /api/v1/users/customfieldnames/{id}
+
+[x] GET     /api/v1/users/customfieldnames
+
+## Versions
+
+[x] GET     /api/v1/versions
